@@ -79,7 +79,7 @@ jobs:
         run: |
           git config user.name "Consilium Bot"
           git config user.email "consilium@users.noreply.github.com"
-          git add ledger/
+          git add -f ledger/
           if git diff --staged --quiet; then
             echo "No ledger changes to commit"
           else

@@ -72,6 +72,7 @@ GITHUB_TOKEN=xxx consilium verify --github --repo owner/repo
 - **Derived state**: `ledger/` can be rebuilt at any time.
 - **Idempotency**: retries avoid duplicate comments by checking for an existing Consilium comment first.
 - **Recovery**: if a comment exists but the ledger is out of sync, run `consilium rebuild --repo owner/repo`.
+- **Git ignore**: this repo ignores `ledger/`, so the workflow uses `git add -f ledger/` to commit it in downstream repos.
 
 ## Troubleshooting (tested behaviors)
 

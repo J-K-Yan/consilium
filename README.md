@@ -126,6 +126,13 @@ consilium balance
 consilium show 1
 ```
 
+## Docs
+
+- `docs/index.md` (GitHub Pages ready)
+- `docs/protocol.md`
+- `docs/agent-setup.md`
+- `docs/maintainers.md`
+
 ## CLI Commands
 
 ```bash

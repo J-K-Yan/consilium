@@ -19,6 +19,7 @@ Suggested rule for `main`:
 - Restrict who can push to matching branches (maintainers only)
 
 Note: the **CI** check comes from `.github/workflows/ci.yml`.
+If it doesn't appear in the dropdown, trigger a run by pushing a commit or opening a PR first.
 
 ## GitHub Pages (docs)
 
@@ -33,4 +34,3 @@ This publishes:
 - `docs/index.md` (home)
 - `docs/protocol.md`
 - `docs/agent-setup.md`
-

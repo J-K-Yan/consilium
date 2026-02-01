@@ -1,0 +1,26 @@
+version: "0.1"
+
+# Project information
+project:
+  name: "my-project"
+  repo: "owner/my-project"
+
+# Credit rules for different outcome types
+credit:
+  pr_merged:
+    total: 100
+    author: 0.5      # 50% to the PR author
+    reviewers: 0.3   # 30% split among reviewers
+    approvers: 0.2   # 20% split among approvers
+
+  # Future outcome types (not implemented in v0.1)
+  # star_received:
+  #   total: 10
+  # dependency_added:
+  #   total: 50
+
+# Role mappings (optional, defaults to GitHub roles)
+roles:
+  maintainers:
+    - github_username_1
+    - github_username_2

@@ -1,0 +1,95 @@
+name: Consilium Credit
+
+on:
+  pull_request:
+    types: [closed]
+
+# Serialize all credit processing to guarantee single chain
+concurrency:
+  group: consilium-ledger-${{ github.repository }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  credit:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.ref }}
+          # Fetch latest to avoid stale ledger
+          fetch-depth: 0
+
+      - name: Pull latest changes
+        run: git pull --rebase origin ${{ github.event.pull_request.base.ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Consilium
+        run: pip install -e .
+
+      - name: Process merged PR
+        id: process
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -c "
+          import os
+          import json
+          from consilium.handler import ConsiliumHandler
+
+          # Get PR info from GitHub event
+          event_path = os.environ.get('GITHUB_EVENT_PATH')
+          with open(event_path) as f:
+              payload = json.load(f)
+
+          repo = payload['repository']['full_name']
+          owner, repo_name = repo.split('/')
+
+          handler = ConsiliumHandler(
+              github_token=os.environ['GITHUB_TOKEN'],
+              owner=owner,
+              repo=repo_name,
+          )
+
+          result = handler.process_webhook(payload)
+
+          if result.success:
+              if result.skipped:
+                  print(f'Skipped: {result.skip_reason}')
+              else:
+                  print(f'Credit distributed for PR #{result.pr_number}')
+                  print(f'Comment ID: {result.comment_id}')
+                  print(f'Entry hash: {result.entry.hash}')
+          else:
+              print(f'Error: {result.error}')
+              exit(1)
+          "
+
+      - name: Commit and push ledger updates
+        run: |
+          git config user.name "Consilium Bot"
+          git config user.email "consilium@users.noreply.github.com"
+          git add ledger/
+          if git diff --staged --quiet; then
+            echo "No ledger changes to commit"
+          else
+            git commit -m "📊 Update credit ledger for PR #${{ github.event.pull_request.number }}
+
+          Co-Authored-By: Consilium Bot <consilium@users.noreply.github.com>"
+            # Retry push with rebase in case of race condition
+            for i in 1 2 3; do
+              git push && break
+              echo "Push failed, retrying with rebase..."
+              git pull --rebase origin ${{ github.event.pull_request.base.ref }}
+            done
+          fi

@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.matp/
+.DS_Store
+ledger/
+.claude/
+*.egg-info/

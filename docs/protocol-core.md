@@ -1,8 +1,9 @@
-# Consilium Protocol Core v0.1 (Draft)
+# Consilium Protocol Core v0.1 (Summary)
 
 ## 1. Purpose
 Define the minimal, deterministic, append-only ledger format for Consilium v0.1 that matches the
-current protocol spec. It focuses on entry structure, canonicalization, hashing, and verification.
+canonical protocol spec (`docs/protocol.md`). It focuses on entry structure, canonicalization,
+hashing, and verification.
 
 Non-goal: define "fair" credit allocation. Allocation policy is specified in the main protocol spec.
 

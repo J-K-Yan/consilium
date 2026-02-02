@@ -22,6 +22,47 @@ If you are an AI agent integrating with Consilium, treat these as invariant rule
 - **Idempotent**: Safe to retry; duplicates are detected by source/comment_id.
 - **Verify first**: Use `consilium verify` and `consilium verify --github --repo owner/repo`.
 
+## 60-Second Demo (Live Output)
+
+Live demo: the GitHub Action posted a Consilium comment on PR #2 in this repo.
+- [PR #2 comment (bot output)](https://github.com/J-K-Yan/consilium/pull/2#issuecomment-3832204340)
+
+Excerpt:
+
+````markdown
+<!-- CONSILIUM:BEGIN -->
+```json
+{
+  "distribution": {
+    "J-K-Yan": 100.0
+  },
+  "hash": "b84d21d2d16431f2e166ea1c12b0e97c731a22f4ca48db21221969fcc5d7124a",
+  "outcome": "pr_merged",
+  "pr_number": 2,
+  "prev_hash": "genesis",
+  "source": "https://github.com/J-K-Yan/consilium/pull/2",
+  "timestamp": "2026-02-01T22:50:55.600495Z",
+  "type": "credit_mint",
+  "version": "0.1"
+}
+```
+<!-- CONSILIUM:END -->
+
+## 🏆 Consilium Credit Distribution
+
+**Outcome**: `pr_merged`
+**PR**: #2
+**Total Credit**: 100.0
+
+| Contributor | Credit |
+|-------------|--------|
+| @J-K-Yan | 100.0 |
+
+---
+*Hash: `b84d21d2d16431f2...` | Prev: `genesis...`*
+*Credit is earned, not given. Verified by outcomes, not votes.*
+````
+
 ## How It Works
 
 ```
@@ -82,14 +123,31 @@ For agents, the contract is simple and repeatable:
 - **Authoritative data**: PR comments (public, auditable, rebuildable).
 - **Local cache**: `ledger/` is derived and must match GitHub or be rebuilt.
 
-## Quick Start
+## Quick Start (5 minutes)
 
-### 1. Add GitHub Action
+### 1) Install (pin to a tag)
+
+```bash
+pipx install git+https://github.com/J-K-Yan/consilium@v0.1.2
+# or
+pip install git+https://github.com/J-K-Yan/consilium@v0.1.2
+```
+
+Pin to a tag for reproducible behavior; avoid installing from `main`.
+
+### 2) Add GitHub Action
 
 Copy `.github/workflows/consilium.yml` to your repository. The action triggers on merged PRs.
 For running Consilium in another repo (agent contributions), see `docs/agent-setup.md`.
 
-### 2. Configure (Optional)
+If you copy the workflow into a different repo, update the install step to pin a release tag:
+
+```yaml
+- name: Install Consilium
+  run: pip install git+https://github.com/J-K-Yan/consilium@v0.1.2
+```
+
+### 3) Configure (optional)
 
 Create `consilium.yaml` to customize credit rules (or set `CONSILIUM_CONFIG` to point at a different path):
 
@@ -108,7 +166,13 @@ credit:
     approvers: 0.2
 ```
 
-### 3. Verify
+Use `consilium.yaml.example` as a starting point.
+
+### 4) Merge a PR
+
+Merge any PR. The action will post a Consilium comment and commit `ledger/`.
+
+### 5) Verify
 
 Use the CLI to verify ledger integrity:
 
@@ -126,12 +190,23 @@ consilium balance
 consilium show 1
 ```
 
+Want the full walkthrough and expected outputs? See `docs/demo.md`.
+
+## Policy Cookbook
+
+Ready-to-copy credit policies (balanced, review-heavy, maintainer-heavy) live in `docs/policy.md`.
+
 ## Docs
 
 - `docs/index.md` (GitHub Pages ready)
-- `docs/protocol.md`
+- `docs/demo.md`
+- `docs/policy.md`
+- `docs/protocol.md` (core spec)
+- `docs/protocol-core.md` (minimal ledger summary)
+- `docs/protocol-extensions.md` (roadmap)
 - `docs/agent-setup.md`
 - `docs/maintainers.md`
+- `SECURITY.md`
 
 ## CLI Commands
 
@@ -182,6 +257,8 @@ consilium show 42 --json
 - Repo admins can delete comments (mitigated by Git-tracked ledger)
 - GitHub is a trusted third party
 - No cryptographic signatures (v0.1 simplification)
+
+See `SECURITY.md` for threat model, permissions, and token guidance.
 
 ## Design Principles
 
@@ -260,6 +337,17 @@ This project emerged from discussions about multi-agent collaboration, trust net
 - **Robert's Rules of Order**: Procedural justice, role separation, decision traceability
 - **GitHub as Credit Anchor**: External signal verification
 - **Lessons from Moltbook**: Systems without outcome anchoring devolve into performance theater
+
+## Pilot Repos Wanted
+
+We are looking for 3-5 pilot repos to run Consilium for 2 weeks.
+
+Please report:
+- disputes about attribution
+- attempted gaming
+- whether the rules feel fair
+
+We will not add provisional states or clawbacks until we have real data.
 
 ## License
 

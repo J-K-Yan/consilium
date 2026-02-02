@@ -1,8 +1,10 @@
-# Consilium Protocol Specification v0.1
+# Consilium Protocol Specification v0.1 (Core)
 
 ## Overview
 
 Consilium is a credit attribution protocol that uses GitHub PR comments as an append-only public ledger. Credit is minted when externally verifiable outcomes occur and distributed to contributors based on their roles.
+
+This document is the canonical v0.1 core spec. Roadmap items live in `docs/protocol-extensions.md`.
 
 ## Core Concepts
 
@@ -183,46 +185,10 @@ for entry in ledger.iter_entries():
 4. Write to local ledger files
 5. Update index with balances
 
-## Security Model
+## Security Notes
 
-### Threat: Comment Deletion/Modification
-
-**Attack**: Repo admin deletes or edits a Consilium comment.
-
-**Detection**:
-- Local Git-tracked ledger preserves the record
-- `consilium verify --github` detects mismatch
-- Hash chain breaks if entries are modified
-
-**Mitigation**:
-- Git history preserves evidence
-- Multiple parties can independently verify
-- Consider signing commits that update ledger
-
-### Threat: Fake Comments
-
-**Attack**: Someone posts a fake Consilium comment.
-
-**Detection**:
-- Hash chain won't link properly
-- `rebuild_from_github()` rejects entries with wrong `prev_hash`
-
-**Mitigation**:
-- Only the GitHub Action should post comments
-- Verify chain integrity before trusting entries
-
-### Threat: GitHub API Manipulation
-
-**Attack**: Attacker compromises GitHub token.
-
-**Detection**:
-- Unexpected credit distributions appear
-- Hash chain may be corrupted
-
-**Mitigation**:
-- Use minimal token permissions
-- Monitor for unexpected entries
-- Rebuild and verify periodically
+See `SECURITY.md` for the threat model, permissions, and token guidance.
+v0.1 assumes GitHub as a trusted third party and does not use cryptographic signatures.
 
 ## Limitations
 
@@ -234,12 +200,9 @@ for entry in ledger.iter_entries():
 4. **GitHub as trusted party**: Depends on GitHub's integrity
 5. **No dispute resolution**: What's recorded is final
 
-### Future Considerations
+## Roadmap
 
-- **Signatures**: Sign entries with contributor keys
-- **Multi-repo**: Aggregate credit across projects
-- **Decay**: Time-weighted credit calculations
-- **Disputes**: On-chain arbitration mechanism
+Non-normative extensions are documented in `docs/protocol-extensions.md`.
 
 ## Glossary
 

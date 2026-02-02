@@ -1,0 +1,14 @@
+{
+  "version": "0.1",
+  "type": "credit_mint",
+  "pr_number": 5,
+  "outcome": "pr_merged",
+  "source": "https://github.com/J-K-Yan/consilium/pull/5",
+  "distribution": {
+    "J-K-Yan": 100.0
+  },
+  "timestamp": "2026-02-02T07:15:16.887419Z",
+  "prev_hash": "4216988e15a06c7094c92dc59ec358b23076c33279ff65ff555d1eefaaf08d0e",
+  "hash": "0ca79ad44275ad3043704c9a040b5b6973210cdfaf2b0ee9d5f9c553a4b95bb1",
+  "comment_id": 3833387909
+}

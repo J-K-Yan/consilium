@@ -17,6 +17,9 @@ jobs:
   credit:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    env:
+      # Default off for downstream adopters; enabled for this repo by default.
+      CONSILIUM_WRITE_LEDGER: ${{ vars.CONSILIUM_WRITE_LEDGER || (github.repository == 'J-K-Yan/consilium' && 'true' || 'false') }}
 
     steps:
       - name: Checkout repository
@@ -76,6 +79,7 @@ jobs:
           "
 
       - name: Commit and push ledger updates
+        if: env.CONSILIUM_WRITE_LEDGER == 'true'
         run: |
           git config user.name "Consilium Bot"
           git config user.email "consilium@users.noreply.github.com"

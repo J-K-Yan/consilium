@@ -1,9 +1,9 @@
 {
   "version": "0.1",
-  "head_hash": "b84d21d2d16431f2e166ea1c12b0e97c731a22f4ca48db21221969fcc5d7124a",
-  "entry_count": 1,
+  "head_hash": "46e90071c2ec7f62e27ada4293aebe7c3eed98033da33c3c019fe82c7ce4ef40",
+  "entry_count": 2,
   "balances": {
-    "J-K-Yan": 100.0
+    "J-K-Yan": 200.0
   },
-  "last_updated": "2026-02-01T22:50:56.201402Z"
+  "last_updated": "2026-02-02T04:25:40.483841Z"
 }

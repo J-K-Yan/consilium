@@ -23,6 +23,7 @@ Example snippet (replace `<ORG>/<REPO>` and `<REF>`):
 ```
 
 If you want to pin a release, use a tag for `<REF>` (recommended).
+Example: `pip install git+https://github.com/J-K-Yan/consilium@v0.1.2`
 
 ## Step 2: Ensure Permissions
 

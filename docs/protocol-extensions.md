@@ -73,3 +73,29 @@ Minimal Implementation:
 - `identities/<actor>.json` binds actor_id to a public key
 - Attestation events include signature over canonical payload
 - Verifiers validate signatures deterministically
+
+## 7) Multi-repo aggregation
+Trigger:
+- A contributor's impact spans multiple repos
+- Need to compare credit across projects
+
+Minimal Implementation:
+- Define a repo-identifier field in entries
+- Aggregate multiple ledgers into a combined index
+- Keep per-repo hash chains intact
+
+## 8) Credit decay
+Trigger:
+- Old contributions should carry less weight
+
+Minimal Implementation:
+- Compute time-weighted balances in a separate view
+- Keep the core ledger append-only; apply decay at read time
+
+## 9) Dispute resolution
+Trigger:
+- Real disputes about attribution or policy
+
+Minimal Implementation:
+- Separate dispute artifacts from the core ledger
+- Record resolutions as additional events with references

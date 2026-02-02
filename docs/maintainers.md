@@ -33,4 +33,8 @@ Recommended setup:
 This publishes:
 - `docs/index.md` (home)
 - `docs/protocol.md`
+- `docs/protocol-core.md`
+- `docs/protocol-extensions.md`
+- `docs/demo.md`
+- `docs/policy.md`
 - `docs/agent-setup.md`
